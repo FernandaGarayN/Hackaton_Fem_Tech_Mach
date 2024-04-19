@@ -11,6 +11,10 @@ const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full'
   },
+  {
+    path: 'probando',
+    loadChildren: () => import('./probando/probando.module').then( m => m.ProbandoPageModule)
+  },
 ];
 
 @NgModule({
