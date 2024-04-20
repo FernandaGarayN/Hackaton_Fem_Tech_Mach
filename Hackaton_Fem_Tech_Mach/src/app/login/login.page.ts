@@ -38,7 +38,8 @@ export class LoginPage implements OnInit {
 
   register() {
     console.log('ir a REGISTRO');
-    this.router.navigate(['/registro']);
+    this.router.navigateByUrl('/registro', { replaceUrl: true });
+
   }
 
   get email() {
