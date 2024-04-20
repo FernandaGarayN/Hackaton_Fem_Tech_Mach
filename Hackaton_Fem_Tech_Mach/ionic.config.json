@@ -1,0 +1,7 @@
+{
+  "name": "Hackaton_Fem_Tech_Mach",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
