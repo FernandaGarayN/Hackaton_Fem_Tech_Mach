@@ -47,17 +47,24 @@ export class RegistroPage implements OnInit {
 
     // Obtener los datos del formulario
     const { email, nombre, apellido, telefono, rut } = this.register.value;
+    const rutFormateado = this.parsearRut(rut)
+    console.log("RUT FORMATEADO " + rutFormateado);
 
     try {
       // Usar el servicio de OCR para reconocer el texto en la imagen
       const textoReconocido = await this.ocrService.recognizeImage(this.imageData);
+      console.log("TEXTO EN IMAGEN: " + textoReconocido);
 
       // Comparar los datos del formulario con el texto reconocido
-      if (!textoReconocido.includes(nombre) || !textoReconocido.includes(apellido) || !textoReconocido.includes(rut)) {
+      if (!textoReconocido.includes(nombre.toUpperCase())
+        || !textoReconocido.includes(apellido.toUpperCase())
+        || !textoReconocido.includes(rutFormateado)) {
         // Los datos no coinciden, muestra un mensaje de error
         console.log('Los datos no coinciden');
         await this.toastErrorMessage('Los datos ingresados no coinciden con la imagen del documento de identidad');
         return;
+      } else {
+        await this.toastSuccessMessage('DATOS VALIDOS!');
       }
     } catch (error) {
       console.error('Error al reconocer texto:', error);
@@ -66,7 +73,7 @@ export class RegistroPage implements OnInit {
     }
 
     // Verificación si el RUT ya está registrado
-    const rutToCheck = this.register.get('rut')?.value;
+    const rutToCheck = rutFormateado;
     const rutQuery = query(collection(this.firestore, 'users'), where('rut', '==', rutToCheck));
     const querySnapshot = await getDocs(rutQuery);
     
@@ -115,12 +122,35 @@ export class RegistroPage implements OnInit {
     reader.readAsDataURL(file);
   }
 
+  parsearRut(rut: string): string {
+    // Eliminar puntos y guiones del RUT original
+    const rutLimpio = rut.replace(/[.-]/g, '');
+    // Obtener el dígito verificador
+    const dv = rutLimpio.slice(-1);
+    // Obtener el número del RUT sin el dígito verificador
+    const rutSinDV = rutLimpio.slice(0, -1);
+    // Dividir el número del RUT en grupos de dos caracteres
+    const rutFormateado = rutSinDV.replace(/(\d{1,2})(?=(\d{3})+(?!\d))/g, '$1.');
+    // Devolver el RUT formateado con el dígito verificador al final
+    return rutFormateado + '-' + dv;
+  }
+
   async toastErrorMessage(message: string) {
     const toast = await this.toastController.create({
       message: message,
       duration: 3000,
       position: 'middle',
       color: 'danger',
+    });
+    toast.present();
+  }
+
+  async toastSuccessMessage(message: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 3000,
+      position: 'middle',
+      color: 'success',
     });
     toast.present();
   }

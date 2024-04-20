@@ -35,3 +35,16 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import "@ionic/angular/css/palettes/dark.system.css";
+
+/* En global.scss */
+
+/* Importa las fuentes */
+/* Importa las fuentes */
+  
+  /* Aplica la fuente a las páginas de login y registro */
+  .login-page ion-content,
+  .registro-page ion-content {
+    font-family: 'Nunito', sans-serif; /* Usando la fuente importada */
+  }
+  
+  
