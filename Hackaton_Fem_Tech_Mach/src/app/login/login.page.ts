@@ -29,7 +29,7 @@ export class LoginPage implements OnInit {
     console.log('intentando ingresar');
     const user = await this.authService.login(this.credentials.value);
     if (user) {
-      this.router.navigateByUrl('/home', { replaceUrl: true });
+      this.router.navigate(['/home']);
     } else {
       console.log('error al ingresar');
       await this.toastErrorMessage('Correo y/o contraseña inválidos');
