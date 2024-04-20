@@ -1,3 +1,19 @@
 ion-content {
     --ion-background-color: #fff;
   }
+
+ion-item {
+--ion-background-color: #fff;
+}
+
+.header-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px; /* Ajusta el espaciado según sea necesario */
+  }
+  
+.header-image img {
+max-width: 100%; /* Ajusta el tamaño de la imagen según sea necesario */
+max-height: 100px; /* Ajusta la altura máxima de la imagen según sea necesario */
+}
