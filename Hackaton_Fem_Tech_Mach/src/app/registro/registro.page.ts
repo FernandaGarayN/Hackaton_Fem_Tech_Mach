@@ -14,7 +14,7 @@ import { OcrService } from '../services/ocr.service'; // Importar el servicio de
 export class RegistroPage implements OnInit {
   register!: FormGroup;
   firestore: Firestore = inject(Firestore);
-  imageData: string; // Variable para almacenar los datos de la imagen
+  imageData: string = ''; // Variable para almacenar los datos de la imagen
 
   constructor(
     private authService: AuthService,
@@ -89,7 +89,7 @@ export class RegistroPage implements OnInit {
   }
 
   // Método para manejar la selección de archivos
-  onFileSelected(event) {
+  onFileSelected(event: any) {
     const file = event.target.files[0];
     const reader = new FileReader();
 
